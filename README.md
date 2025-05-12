@@ -1,2 +1,0 @@
-# MiniGame_CGD4
-
