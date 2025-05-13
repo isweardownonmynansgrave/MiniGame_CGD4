@@ -7,10 +7,14 @@ public class PlayerNet : NetworkBehaviour
     bool isOwner;
 
     public NetworkVariable<int> score = new NetworkVariable<int>();
+
     void Start()
     {
+    
 
+        
     }
+    
     void Update()
     {
         if (!isOwner) { return; }
@@ -19,9 +23,7 @@ public class PlayerNet : NetworkBehaviour
         float y = Input.GetAxis("Vertical");
         Vector3 movement = new Vector3(x,0,z);
         if (movement.magnitude > 0)
-        {
             MovingServerRPC(movement);
-        }
 
         //score.Value += 1;
         if (Input.GetKeyDown(KeyCode.Space))
