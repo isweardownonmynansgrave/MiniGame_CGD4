@@ -1,18 +1,28 @@
-using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
 using Unity.Netcode;
+using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    
+    public bool IsClient = false;
+    // Start is called before the first frame update
     void Start()
     {
-        bool isServer = NetworkManager.Singleton.IsServer;
-        NetworkManager.Singleton.StartClient();
+        if (!IsClient)
+        {
+            NetworkManager.Singleton.StartHost();
+        }
+        else
+        {
+            NetworkManager.Singleton.StartClient();
+        }
+        
     }
 
-    
+    // Update is called once per frame
     void Update()
     {
-
+        
     }
 }
