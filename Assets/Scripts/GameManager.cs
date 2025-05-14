@@ -6,12 +6,16 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public bool IsClient = false;
-    // Start is called before the first frame update
+    public bool IsDedicServer = false;
+
     void Start()
     {
         if (!IsClient)
         {
-            NetworkManager.Singleton.StartHost();
+            if (!IsDedicServer)
+                NetworkManager.Singleton.StartHost(); // "Localhost" Variante
+            else
+                NetworkManager.Singleton.StartServer(); // Dedicated Server Variante
         }
         else
         {
@@ -20,7 +24,6 @@ public class GameManager : MonoBehaviour
         
     }
 
-    // Update is called once per frame
     void Update()
     {
         

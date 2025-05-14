@@ -4,7 +4,7 @@ using UnityEngine;
 public class PlayerNet : NetworkBehaviour
 {
     public GameObject pillar;
-    bool isOwner;
+    bool isOwner = true;
 
     public NetworkVariable<int> score = new NetworkVariable<int>();
 
@@ -21,7 +21,7 @@ public class PlayerNet : NetworkBehaviour
 
         float x = Input.GetAxis("Horizontal");
         float y = Input.GetAxis("Vertical");
-        Vector3 movement = new Vector3(x,0,z);
+        Vector3 movement = new Vector3(x,0,y);
         if (movement.magnitude > 0)
             MovingServerRPC(movement);
 
