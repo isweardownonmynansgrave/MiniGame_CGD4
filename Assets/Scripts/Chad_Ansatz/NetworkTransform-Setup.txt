@@ -1,0 +1,9 @@
+- NetworkObject (Root)
+  - NetworkTransform (Authority: Server)
+  - CharacterController
+  - PlayerMovement (dieses Skript)
+
+Stelle im NetworkTransform sicher:
+
+- Sync Position + Rotation = true
+- Write Permission = Server
