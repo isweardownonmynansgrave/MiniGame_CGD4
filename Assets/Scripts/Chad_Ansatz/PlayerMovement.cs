@@ -1,18 +1,37 @@
-using System.Collections.Generic;
-using Unity.Netcode;
-using UnityEngine;
-
-[RequireComponent(typeof(CharacterController))]
 public class PlayerMovement : NetworkBehaviour
 {
-    public float moveSpeed = 5f;
-
     private CharacterController controller;
+
+    // Nur Server darf schreiben
+    private NetworkVariable<float> moveSpeed = new NetworkVariable<float>(
+        5f,
+        NetworkVariableReadPermission.Everyone,
+        NetworkVariableWritePermission.Server
+    );
+
     private Queue<PlayerInputData> inputQueue = new Queue<PlayerInputData>();
 
     private void Awake()
     {
         controller = GetComponent<CharacterController>();
+    }
+
+    public override void OnNetworkSpawn()
+    {
+        base.OnNetworkSpawn();
+
+        // Initialwert setzen (z. B. aus Spielmanager)
+        if (IsServer)
+        {
+            SetInitialSpeedForPlayer();
+        }
+    }
+
+    private void SetInitialSpeedForPlayer()
+    {
+        // Hier könntest du z. B. auch Werte aus einem zentralen Profil ziehen
+        float serverDefinedSpeed = 7.5f; // Beispiel
+        moveSpeed.Value = serverDefinedSpeed;
     }
 
     private void Update()
@@ -44,13 +63,12 @@ public class PlayerMovement : NetworkBehaviour
             var input = inputQueue.Dequeue();
             Vector3 moveDir = new Vector3(input.Move.x, 0, input.Move.y);
 
-            // Optional: Rotation in Blickrichtung
             if (moveDir.sqrMagnitude > 0.01f)
             {
                 transform.forward = moveDir;
             }
 
-            controller.Move(moveDir * moveSpeed * Time.fixedDeltaTime);
+            controller.Move(moveDir * moveSpeed.Value * Time.fixedDeltaTime);
         }
     }
 }
