@@ -143,25 +143,19 @@ public class PlayerMovement : NetworkBehaviour
         moveDir.y = 0;
         moveDir.Normalize();
 
-        // Geschwindigkeit berechnen
-        Vector3 finalMove = moveDir * moveSpeed.Value;
-
         // Vertikal hinzufügen
-        finalMove.y = verticalVelocity;
+        moveDir.y = verticalVelocity;
 
         // Input fetchen
         /* Vector3 input = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")); // WIP - fetch from InputSystem */
         var inputData = new PlayerInputData
         {
-            Move = finalMove, // vorher: input
+            Move = moveDir, // vorher: input
             Timestamp = Time.time
         };
 
         // Movement an Server Submiten
-        SubmitInputServerRpc(inputData);
-        
-        // Bewegung anwenden
-        //charCon.Move(finalMove * Time.deltaTime); // WIP - Wie fortfahren?
+        SubmitInputServerRpc(inputData); // Bewegung wird Server-seitig angewendet
     }
     private void FixedUpdate()
     {
