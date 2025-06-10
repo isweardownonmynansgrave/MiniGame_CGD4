@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<engine:UXML
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:engine="UnityEngine.UIElements"
+    xmlns:ui="UnityEngine.UIElements"
+    xsi:noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd"
+>
+  <ui:VisualElement class="console-root">
+    <ui:ScrollView name="outputArea" class="console-output" />
+    <ui:TextField name="inputField" class="console-input" />
+  </ui:VisualElement>
+</engine:UXML>

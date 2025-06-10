@@ -1,0 +1,25 @@
+.console-root {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 30%;
+    background-color: rgba(0, 0, 0, 0.6);
+    padding: 8px;
+    flex-direction: column;
+}
+
+.console-output {
+    flex-grow: 1;
+    overflow: auto;
+    font-size: 14px;
+    color: white;
+    unity-font-style: normal;
+}
+
+.console-input {
+    margin-top: 4px;
+    font-size: 14px;
+    color: white;
+    background-color: rgba(30, 30, 30, 0.8);
+}

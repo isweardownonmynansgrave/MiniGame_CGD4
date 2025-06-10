@@ -74,11 +74,14 @@
     <Compile Include="Assets\TutorialInfo\Scripts\Readme.cs" />
     <Compile Include="Assets\Scripts\ClientNetworkTransform.cs" />
     <Compile Include="Assets\Scripts\GameManager.cs" />
+    <Compile Include="Assets\Scripts\UI\DeveloperConsole.cs" />
     <Compile Include="Assets\Scripts\OrbitCamera.cs" />
     <Compile Include="Assets\Scripts\HelloWorldManager.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Assets\UI\Console.uss" />
     <None Include="Assets\UI\MainMenuStyle.uss" />
+    <None Include="Assets\UI\Console.uxml" />
     <None Include="Assets\Scripts\Chad_Ansatz\NetworkTransform-Setup.txt" />
     <None Include="Assets\UI\MainMenu.uxml" />
   </ItemGroup>
