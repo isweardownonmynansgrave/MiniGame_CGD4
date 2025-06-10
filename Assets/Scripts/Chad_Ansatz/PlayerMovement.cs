@@ -67,6 +67,30 @@ public class PlayerMovement : NetworkBehaviour
     private Queue<PlayerInputData> inputQueue = new Queue<PlayerInputData>();
     #endregion
 
+    #region Accessoren
+    // Später für Console nutzbar
+    public float DebugIntervall
+    {
+        get { return debugIntervall; }
+        set { if (value > 0) debugIntervall = value; }
+    }
+    public bool PrintMcInfo
+    {
+        get { return printMcInfo; }
+        set { printMcInfo = value; }
+    }
+    public bool PrintGroundedInfo
+    {
+        get { return printGroundedInfo; }
+        set { printGroundedInfo = value; }    
+    }
+    public bool PrintAnimatorValues
+    {
+        get { return printAnimatorValues; }
+        set { printAnimatorValues = value; }
+    }
+    #endregion
+
     #region MonoBehaviour-Methoden
     private void Awake()
     {
