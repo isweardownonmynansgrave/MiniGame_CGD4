@@ -220,7 +220,7 @@ public class PlayerMovement : NetworkBehaviour
     private void SetInitialSpeedForPlayer()
     {
         // Hier könntest du z. B. auch Werte aus einem zentralen Profil ziehen
-        float serverDefinedSpeed = 7.5f; // Beispiel
+        float serverDefinedSpeed = 5f; // Beispiel
         moveSpeed.Value = serverDefinedSpeed;
     }
 
