@@ -19,11 +19,13 @@ public class PlayerMovement : NetworkBehaviour
     private Vector3 moveVector;
     private float currentRotationY;
     private float verticalVelocity = 0f;
+    private float moveSpeed;
 
     // Jump
     private bool isPressingJump = false;
     private bool isJumping = false;
     private float jumpTimeCounter = 0f;
+    private float jumpInitialForce;
 
     [Header("DevArea")]
     [SerializeField] private bool isAnimated = false;
@@ -36,7 +38,8 @@ public class PlayerMovement : NetworkBehaviour
     #endregion
     #region Netzwerkvariablen
     // Nur Server darf schreiben
-    // Player Settings
+    // Player Settings - Fehlerhaft
+    /* Beispiel NetworkVariable
     private NetworkVariable<float> moveSpeed = new NetworkVariable<float>(
         5f,
         NetworkVariableReadPermission.Everyone,
@@ -62,7 +65,7 @@ public class PlayerMovement : NetworkBehaviour
         -20f,
         NetworkVariableReadPermission.Everyone,
         NetworkVariableWritePermission.Server
-    );
+    );*/
     // Queue
     private Queue<PlayerInputData> inputQueue = new Queue<PlayerInputData>();
     #endregion
