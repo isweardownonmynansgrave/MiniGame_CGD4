@@ -70,6 +70,7 @@
     <Compile Include="Assets\Scripts\Utils\PlayerManager.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerInputData.cs" />
     <Compile Include="Assets\Scripts\OwnerNetworkAnimator.cs" />
+    <Compile Include="Assets\Scripts\Utils\ETeam.cs" />
     <Compile Include="Assets\Scripts\MC_BlobCC2.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerMovement.cs" />
     <Compile Include="Assets\Scripts\HelloWorldPlayer.cs" />
@@ -87,7 +88,9 @@
     <None Include="Assets\UI\Console.uxml" />
     <None Include="Assets\Scripts\Player\NetworkTransform-Setup.txt" />
     <None Include="Assets\UI\MainMenu.uxml" />
+    <None Include="Assets\UI\SplashTeamScreen.uxml" />
     <None Include="Assets\00 TO-DO.txt" />
+    <None Include="Assets\UI\SplashTeamScreen.uss" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

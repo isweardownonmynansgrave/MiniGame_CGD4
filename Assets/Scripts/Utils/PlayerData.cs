@@ -6,10 +6,10 @@ public class PlayerData
     public ulong ClientId;
     public FixedString32Bytes Name;
     public Color PlayerColor;
-    public int Team;
+    public ETeam Team;
     // Weitere per-Spieler Settings
 
-    public PlayerData(ulong _clientId, FixedString32Bytes _name, Color _playerColor, int _team)
+    public PlayerData(ulong _clientId, FixedString32Bytes _name, Color _playerColor, ETeam _team)
     {
         ClientId = _clientId;
         Name = _name;

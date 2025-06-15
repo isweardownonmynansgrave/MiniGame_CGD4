@@ -10,7 +10,7 @@ public class PlayerManager : MonoBehaviour
     public static PlayerManager Instance;
 
     private Dictionary<ulong, PlayerData> connectedPlayers = new();
-    private Dictionary<ulong, bool> teamDictIsRed = new();
+    private Dictionary<ulong, ETeam> teamDict = new();
 
 
 
@@ -45,34 +45,49 @@ public class PlayerManager : MonoBehaviour
     {
         return connectedPlayers.TryGetValue(clientId, out var data) ? data : null;
     }
+    private Color PickTeamColor(ETeam _teamChoice)
+    {
+        Color temp = Color.green; // Wenn Objekte grün erscheinen, läuft etwas bei der Farbwahl schief
+        switch (_teamChoice)
+        {
+            case ETeam.Rot:
+                temp = Color.red;
+                break;
+            case ETeam.Blau:
+                temp = Color.blue;
+                break;
+            case ETeam.Gelb:
+                temp = Color.yellow;
+                break;
+        }
+        return temp;
+    }
     #endregion
 
     #region UserManagement
     // RPC-Variante
     [ServerRpc(RequireOwnership = false)]
-    public void RegisterPlayerServerRpc(ulong _clientId, string _playerName, bool _isTeamRed)
+    public void RegisterPlayerServerRpc(ulong _clientId, string _playerName, ETeam _teamChoice)
     {
         if (!connectedPlayers.ContainsKey(_clientId))
         {
-            // Add player to dictionary, assign default settings etc.
-            Color tempColor = _isTeamRed ? Color.red : Color.blue; // Teamcolor, 0-Red; 1-Blue
-
-            PlayerData tempData = new PlayerData(_clientId, _playerName, tempColor, _isTeamRed ? 0 : 1); // 0-Red; 1-Blue
+            Color tempColor = PickTeamColor(_teamChoice); // Teamcolor, 0-Red; 1-Blue; 2-Yellow
+            PlayerData tempData = new PlayerData(_clientId, _playerName, tempColor, _teamChoice);
 
             // Zu Dicts hinzufügen
             connectedPlayers.Add(_clientId, tempData);
-            teamDictIsRed.Add(_clientId, _isTeamRed);
+            teamDict.Add(_clientId, _teamChoice);
         }
     }
-    public void RegisterPlayer(ulong _clientId, string _playerName, bool _isTeamRed)
+    public void RegisterPlayer(ulong _clientId, string _playerName, ETeam _teamChoice)
     {
         if (!connectedPlayers.ContainsKey(_clientId))
         {
-            Color tempColor = _isTeamRed ? Color.red : Color.blue; // Teamcolor, 0-Red; 1-Blue
-            PlayerData tempData = new PlayerData(_clientId, _playerName, tempColor, _isTeamRed ? 0 : 1); // 0-Red; 1-Blue
+            Color tempColor = PickTeamColor(_teamChoice); // Teamcolor, 0-Red; 1-Blue; 2-Yellow
+            PlayerData tempData = new PlayerData(_clientId, _playerName, tempColor, _teamChoice);
 
             connectedPlayers.Add(_clientId, tempData);
-            teamDictIsRed.Add(_clientId, _isTeamRed);
+            teamDict.Add(_clientId, _teamChoice);
             Debug.Log($"Player {_playerName} (ClientId {_clientId}) registered.");
         }
     }

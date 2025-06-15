@@ -2,15 +2,25 @@
     - Prefab fixen
         - Wenn fbx -> Animator
     - Punkte-Objekt Plazierung
-    - "Eindeutige SpielerId" muss im Spieler als NetVar sein? -> Bereits im PlayerManager als ulong impl.
-    -Team Mechanic
-        - Kann nur Objekte vom gegnerischen Team zerstören
+    - Teamzuweisung?
+    - Animation
+        - Animationen mit allen Clients synchronisiert (NetVars, z.B. isCrouched)
 
-- Serverstruktur
-    - Verbindungslogik
-    - Player & Server Builds
-    - Outsourcing auf Tartaros Ubuntu Machine?
-        - Alternativ HVH1 als DedicServer-Host?
+- Steuerung
+    - Maus sichtbar, wenn keine Maustaste gedrückt
+    - Orbitcam bewegt sich, wenn rechte Maustaste gedrückt/hold
+        - Nur auf X-Achse? Abstand und Winkel, zum Spieler, sollen gleich bleiben
+
+-Team Mechanic
+    - Kann nur Objekte vom gegnerischen Team zerstören
+    - Spieler & Objekte sind Teamzugehörig
+    - Enum statt bool? => Max Teams 2 -> 3
+    - Teams haben UNIQUE Farben
+        - Team1: Rot
+        - Team2: Blau
+        - Team3: Gelb
+        - Entsprechende Materials erstellen
+        - Optional: Spieler Objekte ebenfalls eingefärbt
 
 - GameManager
     - Punktesystem
@@ -20,8 +30,31 @@
 - Punkte-Objekte (init Spawnschutz?)
     - Orb Objekt
     - Pillar Objekt
+    - Objekte haben ClickCount & PlayersClickedCount!
 
 - UI
     - MainMenu
     - SettingsMenu
     - Splashscreen Gamestart "Teamwahl"
+        - 3 Buttons zur Auswahl des Teams
+        - Text der erklärt, das man sein Team wählen kann
+    - DevConsole finish
+
+- GUI
+    - Eigener ScoreCount (NetVar vorhanden)
+        - lesbare Größe & Farbe
+    - 2 Buttons zum Spawnen der Objekte
+    - Elemente ausblenden, wenn Serverbuild -> Entfällt durch DedicServer Build??
+    - Zusatz: TeamScoreCounts (NetVars & TeamScore Auswertung serverseitig?)
+    - Zusatz: Kleiner Hilfetext mit Spawnkosten?
+
+- Serverstruktur
+    - Verbindungslogik
+    - Player & Server Builds
+    - Outsourcing auf Tartaros Ubuntu Machine?
+        - Alternativ HVH1 als DedicServer-Host?
+
+- Fragen an Hr. Gerstner
+    - "Eindeutige SpielerId" muss im Spieler als NetVar sein? -> Bereits im PlayerManager als ulong impl.
+        - Haben Network Objekte bereits eine ulong clientId, oder muss diese durch hashing o.ä. selbst generiert werden?
+    - 3 Teams nötig? -> Enum; Können es auch 2 Teams sein? -> Bool "isTeamRed"
