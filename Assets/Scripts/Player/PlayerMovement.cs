@@ -26,6 +26,14 @@ public class PlayerMovement : NetworkBehaviour
     private bool isJumping = false;
     private float jumpTimeCounter = 0f;
     private float jumpInitialForce;
+    private float jumpHoldForce;
+    private float jumpHoldTime;
+
+    // Environment
+    private float gravity;
+
+    // Server Coms
+    private Queue<PlayerInputData> inputQueue = new Queue<PlayerInputData>(); // Queue
 
     [Header("DevArea")]
     [SerializeField] private bool isAnimated = false;
@@ -37,37 +45,12 @@ public class PlayerMovement : NetworkBehaviour
     [SerializeField] private bool printAnimatorValues = false;
     #endregion
     #region Netzwerkvariablen
-    // Nur Server darf schreiben
-    // Player Settings - Fehlerhaft
-    /* Beispiel NetworkVariable
-    private NetworkVariable<float> moveSpeed = new NetworkVariable<float>(
-        5f,
-        NetworkVariableReadPermission.Everyone,
-        NetworkVariableWritePermission.Server
-    );
-    private NetworkVariable<float> jumpInitialForce = new NetworkVariable<float>(
-        8f,
-        NetworkVariableReadPermission.Everyone,
-        NetworkVariableWritePermission.Server
-    );
-    private NetworkVariable<float> jumpHoldForce = new NetworkVariable<float>(
-        4f,
-        NetworkVariableReadPermission.Everyone,
-        NetworkVariableWritePermission.Server
-    );
-    private NetworkVariable<float> jumpHoldTime = new NetworkVariable<float>(
-        0.2f,
-        NetworkVariableReadPermission.Everyone,
-        NetworkVariableWritePermission.Server
-    );
-    // Environment Settings
-    private NetworkVariable<float> gravity = new NetworkVariable<float>(
+    // score - WIP
+    private NetworkVariable<float> score = new NetworkVariable<float>(
         -20f,
         NetworkVariableReadPermission.Everyone,
         NetworkVariableWritePermission.Server
-    );*/
-    // Queue
-    private Queue<PlayerInputData> inputQueue = new Queue<PlayerInputData>();
+    );
     #endregion
 
     #region Accessoren
@@ -140,8 +123,8 @@ public class PlayerMovement : NetworkBehaviour
             if (isPressingJump)
             {
                 isJumping = true;
-                jumpTimeCounter = jumpHoldTime.Value;
-                verticalVelocity = jumpInitialForce.Value;
+                jumpTimeCounter = jumpHoldTime;
+                verticalVelocity = jumpInitialForce;
             }
             else
             {
@@ -156,12 +139,12 @@ public class PlayerMovement : NetworkBehaviour
         {
             if (isJumping && isPressingJump && jumpTimeCounter > 0f)
             {
-                verticalVelocity += jumpHoldForce.Value * Time.deltaTime;
+                verticalVelocity += jumpHoldForce * Time.deltaTime;
                 jumpTimeCounter -= Time.deltaTime;
             }
             else
             {
-                verticalVelocity += gravity.Value * Time.deltaTime;
+                verticalVelocity += gravity * Time.deltaTime;
             }
         }
 
@@ -198,7 +181,7 @@ public class PlayerMovement : NetworkBehaviour
                 transform.forward = moveDir;
             }
 
-            charCon.Move(moveDir * moveSpeed.Value * Time.fixedDeltaTime);
+            charCon.Move(moveDir * moveSpeed * Time.fixedDeltaTime);
         }
     }
     private void LateUpdate()
@@ -218,16 +201,27 @@ public class PlayerMovement : NetworkBehaviour
         {
             SetInitialSpeedForPlayer();
         }
+        if (IsOwner)
+        {
+            // Der Owner (Client) fordert Registrierung an
+            string chosenName = "SomeName"; // evtl. über ein UI gesetzt
+            RequestRegistrationServerRpc(chosenName);
+        }
     }
 
-    private void SetInitialSpeedForPlayer()
+    private void SetInitialSpeedForPlayer() // Beispiel Init
     {
         // Hier könntest du z. B. auch Werte aus einem zentralen Profil ziehen
         float serverDefinedSpeed = 5f; // Beispiel
-        moveSpeed.Value = serverDefinedSpeed;
+        moveSpeed = serverDefinedSpeed;
     }
 
-
+    [ServerRpc] // Exec by Client
+    private void RequestRegistrationServerRpc(string playerName)
+    {
+        bool teamChoice = true;
+        PlayerManager.Instance.RegisterPlayer(OwnerClientId, playerName, teamChoice);
+    }
 
     [ServerRpc]
     private void SubmitInputServerRpc(PlayerInputData input)
@@ -294,6 +288,19 @@ public class PlayerMovement : NetworkBehaviour
             Quaternion targetRot = Quaternion.LookRotation(direction);
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, 10 * Time.deltaTime);
         }
+    }
+
+    [ClientRpc] // Exec by server
+    private void SetPlayerSettingsClientRpc(float _speed, // Wird immer zum Aufruf verwendet, Rest default
+                                            float _jumpInitialForce = 8f,
+                                            float _jumpHoldForce = 4f,
+                                            float _jumpHoldTime = 0.2f,
+                                            float _gravity = -20f)
+    {
+        moveSpeed = _speed;
+        jumpInitialForce = _jumpInitialForce;
+        jumpHoldForce = _jumpHoldForce;
+        jumpHoldTime = _jumpHoldTime;
     }
     #endregion
 
