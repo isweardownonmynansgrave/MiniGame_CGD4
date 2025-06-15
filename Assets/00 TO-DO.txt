@@ -33,12 +33,13 @@
     - Objekte haben ClickCount & PlayersClickedCount!
 
 - UI
-    - MainMenu
-    - SettingsMenu
+    - MainMenu - (Prototyp steht)
+    - SettingsMenu - (Prototyp steht)
     - Splashscreen Gamestart "Teamwahl"
         - 3 Buttons zur Auswahl des Teams
         - Text der erklärt, das man sein Team wählen kann
     - DevConsole finish
+    - Font Sizes fixen
 
 - GUI
     - Eigener ScoreCount (NetVar vorhanden)
@@ -47,6 +48,9 @@
     - Elemente ausblenden, wenn Serverbuild -> Entfällt durch DedicServer Build??
     - Zusatz: TeamScoreCounts (NetVars & TeamScore Auswertung serverseitig?)
     - Zusatz: Kleiner Hilfetext mit Spawnkosten?
+
+- Scenehandling
+    - UIs fetchen
 
 - Serverstruktur
     - Verbindungslogik

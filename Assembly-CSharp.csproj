@@ -83,14 +83,18 @@
     <Compile Include="Assets\Scripts\HelloWorldManager.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\UI\Console.uss" />
-    <None Include="Assets\UI\MainMenuStyle.uss" />
-    <None Include="Assets\UI\Console.uxml" />
+    <None Include="Assets\UI\Ingame\Console.uss" />
+    <None Include="Assets\UI\Menus\MainMenuStyle.uss" />
+    <None Include="Assets\UI\Ingame\Console.uxml" />
     <None Include="Assets\Scripts\Player\NetworkTransform-Setup.txt" />
-    <None Include="Assets\UI\MainMenu.uxml" />
+    <None Include="Assets\UI\Menus\MainMenu.uxml" />
+    <None Include="Assets\UI\Ingame\GUI.uxml" />
     <None Include="Assets\UI\SplashTeamScreen.uxml" />
     <None Include="Assets\00 TO-DO.txt" />
     <None Include="Assets\UI\SplashTeamScreen.uss" />
+    <None Include="Assets\UI\Ingame\GUI.uss" />
+    <None Include="Assets\UI\Menus\SettingsMenu.uxml" />
+    <None Include="Assets\UI\Menus\SettingsMenu.uss" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

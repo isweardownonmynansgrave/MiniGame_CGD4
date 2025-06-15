@@ -1,0 +1,18 @@
+<engine:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:engine="UnityEngine.UIElements" xmlns:editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI/Menus/SettingsMenu.uss?fileID=7433441132597879392&amp;guid=6ddd04118452e6c49b8a9a39732c84d7&amp;type=3#SettingsMenu" />
+    <engine:VisualElement class="settings-root" style="flex-grow: 1; width: 100%; height: 100%;">
+        <engine:VisualElement name="MiddleBox">
+            <engine:VisualElement name="UsernameBox" class="settings-row settings-item">
+                <engine:Label text="Username:" name="UsernameLabel" class="settings-label" />
+                <engine:TextField name="UsernameField" class="settings-input" />
+            </engine:VisualElement>
+            <engine:VisualElement name="SensitivityBox" class="settings-row settings-item">
+                <engine:Label text="Mouse Sensitivity:" name="SensitivityLabel" class="settings-label" style="font-size: 20px;" />
+                <engine:Slider name="SensitivitySlider" low-value="0.1" high-value="1" value="1.0" show-input-field="true" class="settings-slider" />
+            </engine:VisualElement>
+        </engine:VisualElement>
+        <engine:VisualElement name="LabelBox" style="flex-grow: 1; width: 100%; height: 10%; position: absolute; bottom: 0; flex-direction: row; align-content: center; align-self: center; justify-content: center;">
+            <engine:Label text="Back to MainMenu [ESC]" name="HintLabel" style="bottom: 5%; color: rgb(255, 255, 255); align-self: center; align-content: center; justify-content: center; font-size: 30%;" />
+        </engine:VisualElement>
+    </engine:VisualElement>
+</engine:UXML>

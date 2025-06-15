@@ -219,7 +219,7 @@ public class PlayerMovement : NetworkBehaviour
     [ServerRpc] // Exec by Client
     private void RequestRegistrationServerRpc(string playerName)
     {
-        bool teamChoice = true;
+        ETeam teamChoice = ETeam.Rot; // Auswahl übergeben - WIP
         PlayerManager.Instance.RegisterPlayer(OwnerClientId, playerName, teamChoice);
     }
 
