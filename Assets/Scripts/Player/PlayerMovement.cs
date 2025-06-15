@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
+
 public class PlayerMovement : NetworkBehaviour
 {
     #region Instanzvariablen
@@ -34,6 +35,13 @@ public class PlayerMovement : NetworkBehaviour
 
     // Server Coms
     private Queue<PlayerInputData> inputQueue = new Queue<PlayerInputData>(); // Queue
+
+    // Game Mechanics
+    ETeam teamChoice;
+    [SerializeField] private GameObject punkteQuellePrefab1;
+    [SerializeField] private GameObject punkteQuellePrefab2;
+    private const int SOURCE1_BOUND = 3;
+    private const int SOURCE2_BOUND = 5;
 
     [Header("DevArea")]
     [SerializeField] private bool isAnimated = false;
@@ -192,6 +200,8 @@ public class PlayerMovement : NetworkBehaviour
         }
     }
     #endregion
+
+    #region Network-Handling
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
@@ -204,11 +214,13 @@ public class PlayerMovement : NetworkBehaviour
         if (IsOwner)
         {
             // Der Owner (Client) fordert Registrierung an
-            string chosenName = "SomeName"; // evtl. über ein UI gesetzt
-            RequestRegistrationServerRpc(chosenName);
+            //string chosenName = "SomeName"; // evtl. über ein UI gesetzt
+            string chosenName = UIManager.Instance.Username; // Erster Ansatz - fetch from UI
+            teamChoice = UIManager.Instance.TeamChoice;
+            RequestRegistrationServerRpc(chosenName, teamChoice);
         }
     }
-
+    
     private void SetInitialSpeedForPlayer() // Beispiel Init
     {
         // Hier könntest du z. B. auch Werte aus einem zentralen Profil ziehen
@@ -217,10 +229,9 @@ public class PlayerMovement : NetworkBehaviour
     }
 
     [ServerRpc] // Exec by Client
-    private void RequestRegistrationServerRpc(string playerName)
+    private void RequestRegistrationServerRpc(string playerName, ETeam _teamChoice)
     {
-        ETeam teamChoice = ETeam.Rot; // Auswahl übergeben - WIP
-        PlayerManager.Instance.RegisterPlayer(OwnerClientId, playerName, teamChoice);
+        PlayerManager.Instance.RegisterPlayer(OwnerClientId, playerName, _teamChoice);
     }
 
     [ServerRpc]
@@ -228,6 +239,7 @@ public class PlayerMovement : NetworkBehaviour
     {
         inputQueue.Enqueue(input);
     }
+    #endregion
 
     #region On-Methoden
     public void OnMove(InputAction.CallbackContext context)
@@ -255,8 +267,13 @@ public class PlayerMovement : NetworkBehaviour
             // Aktuelle Look-Eingabe (z. B. Mausbewegung oder Controller-Stick) - Legcyy
             lookInput = context.ReadValue<Vector2>();
 
-            // Rotation mithilfe des Inputs ändern
-            currentRotationY += lookInput.x;
+            if (Input.GetMouseButtonDown(1)) // 1=Rechtsklick
+            {
+                SetCursorLock(true);
+                currentRotationY += lookInput.x; // Rotation mithilfe des Inputs ändern
+            }
+            if (Input.GetMouseButtonUp(1)) // Cursor für Button Clicks unlocken
+                SetCursorLock(false);
         }
     }
     public void OnJump(InputAction.CallbackContext context)
@@ -276,7 +293,7 @@ public class PlayerMovement : NetworkBehaviour
         }       
     }
     #endregion
-    
+
     #region Playermethoden
     // Rotation
     private void RotateToView()
@@ -314,6 +331,59 @@ public class PlayerMovement : NetworkBehaviour
 
         Cursor.visible = !_isLocked;
     }
+    #endregion
+
+    #region GameMechanics
+    // Wird vom Client aufgerufen
+    [ServerRpc]
+    public void RequestSpawnPointSourceServerRpc(int sourceChoice, ServerRpcParams rpcParams = default)
+    {
+        // Sicherheit: Nur gültige Werte erlauben
+        if (sourceChoice < 1 || sourceChoice > 2)
+        {
+            Debug.Log("[PlayerMovement] Ungültige Auswahl der Quelle (nur 1 oder 2 erlaubt).");
+            return;
+        }
+
+        // Hole den ClientId des Anrufers
+        ulong clientId = rpcParams.Receive.SenderClientId;
+
+        // Sicherheitsprüfung: existiert der Spieler und ist er autorisiert?
+        if (!IsAuthorized(clientId))
+            return;
+
+        // Logik wie in deiner Originalmethode – aber nur serverseitig!
+        GameObject tempSource = null;
+        if (score.Value >= SOURCE1_BOUND && sourceChoice == 1)
+        {
+            tempSource = Instantiate(punkteQuellePrefab1, transform.position + Vector3.forward, Quaternion.identity);
+        }
+        else if (score.Value >= SOURCE2_BOUND && sourceChoice == 2)
+        {
+            tempSource = Instantiate(punkteQuellePrefab2, transform.position + Vector3.forward, Quaternion.identity);
+        }
+
+        if (tempSource != null)
+        {
+            // Netzwerkobjekt aktivieren
+            tempSource.GetComponent<NetworkObject>().Spawn();
+
+            // Setup-Logik
+            SetupPointSource(tempSource.GetComponent<Punktequelle>(), teamChoice, clientId);
+        }
+    }
+    private void SetupPointSource(Punktequelle _source, ETeam _teamChoice, ulong _id)
+    {
+        _source.Team = _teamChoice;
+        _source.OwnerId = _id;
+    }
+    private bool IsAuthorized(ulong clientId)
+    {
+        // Beispiel: Nur Owner darf seine Quelle spawnen
+        return clientId == OwnerClientId;
+    }
+    public void SpawnSource1() => RequestSpawnPointSourceServerRpc(1); // UIManager kann für Buttons nun += dieser Methoden nutzen
+    public void SpawnSource2() => RequestSpawnPointSourceServerRpc(2);
     #endregion
 
     #region Debugging
