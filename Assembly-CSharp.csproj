@@ -87,6 +87,7 @@
     <None Include="Assets\UI\Console.uxml" />
     <None Include="Assets\Scripts\Player\NetworkTransform-Setup.txt" />
     <None Include="Assets\UI\MainMenu.uxml" />
+    <None Include="Assets\00 TO-DO.txt" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

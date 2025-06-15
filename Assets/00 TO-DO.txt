@@ -1,0 +1,27 @@
+- Spieler
+    - Prefab fixen
+        - Wenn fbx -> Animator
+    - Punkte-Objekt Plazierung
+    - "Eindeutige SpielerId" muss im Spieler als NetVar sein? -> Bereits im PlayerManager als ulong impl.
+    -Team Mechanic
+        - Kann nur Objekte vom gegnerischen Team zerstören
+
+- Serverstruktur
+    - Verbindungslogik
+    - Player & Server Builds
+    - Outsourcing auf Tartaros Ubuntu Machine?
+        - Alternativ HVH1 als DedicServer-Host?
+
+- GameManager
+    - Punktesystem
+        - Universelle Quelle (1Pkt./Sec=>Random Spieler); UNIQUE, NOCLIP, INVISIBLE;
+        - Erkennung und Verarbeitung der plazierten Objekte
+
+- Punkte-Objekte (init Spawnschutz?)
+    - Orb Objekt
+    - Pillar Objekt
+
+- UI
+    - MainMenu
+    - SettingsMenu
+    - Splashscreen Gamestart "Teamwahl"
