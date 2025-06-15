@@ -72,11 +72,13 @@
     <Compile Include="Assets\Scripts\OwnerNetworkAnimator.cs" />
     <Compile Include="Assets\Scripts\Utils\ETeam.cs" />
     <Compile Include="Assets\Scripts\MC_BlobCC2.cs" />
+    <Compile Include="Assets\Scripts\Utils\Punktequelle.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerMovement.cs" />
     <Compile Include="Assets\Scripts\HelloWorldPlayer.cs" />
     <Compile Include="Assets\TutorialInfo\Scripts\Readme.cs" />
     <Compile Include="Assets\Scripts\UI\DevConsoleController.cs" />
     <Compile Include="Assets\Scripts\ClientNetworkTransform.cs" />
+    <Compile Include="Assets\Scripts\Utils\UIManager.cs" />
     <Compile Include="Assets\Scripts\Utils\PlayerData.cs" />
     <Compile Include="Assets\Scripts\UI\DeveloperConsole.cs" />
     <Compile Include="Assets\Scripts\OrbitCamera.cs" />

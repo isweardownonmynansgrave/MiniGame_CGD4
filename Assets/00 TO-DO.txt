@@ -1,20 +1,19 @@
 - Spieler
     - Prefab fixen
         - Wenn fbx -> Animator
-    - Punkte-Objekt Plazierung
+    - Punkte-Objekt Plazierung - Prototyping, SA missing
     - Teamzuweisung?
     - Animation
         - Animationen mit allen Clients synchronisiert (NetVars, z.B. isCrouched)
 
-- Steuerung
-    - Maus sichtbar, wenn keine Maustaste gedrückt
-    - Orbitcam bewegt sich, wenn rechte Maustaste gedrückt/hold
+- Steuerung - TESTING
+    - Maus sichtbar, wenn keine Maustaste gedrückt - TESTING
+    - Orbitcam bewegt sich, wenn rechte Maustaste gedrückt/hold - TESTING
         - Nur auf X-Achse? Abstand und Winkel, zum Spieler, sollen gleich bleiben
 
 -Team Mechanic
     - Kann nur Objekte vom gegnerischen Team zerstören
     - Spieler & Objekte sind Teamzugehörig
-    - Enum statt bool? => Max Teams 2 -> 3
     - Teams haben UNIQUE Farben
         - Team1: Rot
         - Team2: Blau
@@ -51,6 +50,9 @@
 
 - Scenehandling
     - UIs fetchen
+        - 0_MainMenu - DONE/TESTING
+        - 1_Splash
+        - GameScene
 
 - Serverstruktur
     - Verbindungslogik
@@ -61,4 +63,3 @@
 - Fragen an Hr. Gerstner
     - "Eindeutige SpielerId" muss im Spieler als NetVar sein? -> Bereits im PlayerManager als ulong impl.
         - Haben Network Objekte bereits eine ulong clientId, oder muss diese durch hashing o.ä. selbst generiert werden?
-    - 3 Teams nötig? -> Enum; Können es auch 2 Teams sein? -> Bool "isTeamRed"
