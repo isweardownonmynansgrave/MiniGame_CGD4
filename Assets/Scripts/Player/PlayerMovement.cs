@@ -116,6 +116,9 @@ public class PlayerMovement : NetworkBehaviour
         // Cleanup
         SetCursorLock(true);
 
+        // Network Spawn
+        GetComponent<NetworkObject>().Spawn();
+
         // Debug
         StartCoroutine(DebugVariablesRoutine());
     }
@@ -187,6 +190,11 @@ public class PlayerMovement : NetworkBehaviour
             if (moveDir.sqrMagnitude > 0.01f)
             {
                 transform.forward = moveDir;
+                animator.SetBool("walking", true);
+            }
+            else
+            {
+                animator.SetBool("walking", false);
             }
 
             charCon.Move(moveDir * moveSpeed * Time.fixedDeltaTime);
@@ -370,6 +378,8 @@ public class PlayerMovement : NetworkBehaviour
 
             // Setup-Logik
             SetupPointSource(tempSource.GetComponent<Punktequelle>(), teamChoice, clientId);
+
+            // Register?
         }
     }
     private void SetupPointSource(Punktequelle _source, ETeam _teamChoice, ulong _id)
