@@ -98,5 +98,6 @@ public class PlayerManager : MonoBehaviour
         else
         { Debug.Log("Fehler - UnregisterPlayer Aufruf mit unbekanntem Key."); }
     }
+    
     #endregion
 }
